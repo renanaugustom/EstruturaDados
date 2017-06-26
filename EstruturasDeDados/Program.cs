@@ -47,9 +47,14 @@ namespace EstruturasDeDados
             return listaPessoa.Where(x => listaIds.Contains(x.Id)).ToList();
         }
 
+        public List<Pessoa> JoinEstruturaObjeto()
+        {
+            return listaPessoa.Join(listaIds, x => x.Id, y => y, (x, y) => x).ToList();
+        }
+
         public List<Pessoa> DicionarioEstruturaObjeto()
         {
-            var dictPessoa = listaPessoa.ToDictionary(g => g.Id, g => g);
+            IDictionary<int, Pessoa> dictPessoa = listaPessoa.ToDictionary(g => g.Id, g => g);
             return listaIds.Select(x => dictPessoa[x]).ToList();
         }
 
@@ -61,6 +66,7 @@ namespace EstruturasDeDados
 
             prog.CalculaTempo("Contains (Estrutura Objeto)", prog.ContainsEstruturaObjeto);
             prog.CalculaTempo("Dicionario (Estrutura Objeto)", prog.DicionarioEstruturaObjeto);
+            prog.CalculaTempo("Join (Estrutura Objeto)", prog.JoinEstruturaObjeto);
 
             Console.ReadLine();
         }
